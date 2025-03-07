@@ -40,6 +40,23 @@ class TestQueue(unittest.TestCase):
 
         self.assertEqual(queue.size(), 3)
 
+    def test_peek(self):
+        queue = Queue()
+        with self.assertRaises(IndexError):
+            queue.peek()
+
+        queue.enqueue(1)
+        queue.enqueue(2)
+        queue.enqueue(3)
+
+        self.assertEqual(queue.peek(), 1)
+        queue.dequeue()
+        self.assertEqual(queue.peek(), 2)
+        queue.dequeue()
+        self.assertEqual(queue.peek(), 3)
+        queue.dequeue()
+        with self.assertRaises(IndexError):
+            queue.peek()
 
 if __name__ == '__main__':
     unittest.main()
