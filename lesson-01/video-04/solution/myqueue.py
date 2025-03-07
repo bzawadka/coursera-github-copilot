@@ -33,6 +33,16 @@ class Queue:
         if self.is_empty():
             return None
         return self._items.popleft()
+    
+    def peek(self) -> Any:
+        """Get the item at the front of the queue without removing it.
+
+        Returns:
+            Any: The item at the front of the queue.
+        """
+        if self.is_empty():
+            raise IndexError("Queue is empty")
+        return self._items[0]
 
     def size(self) -> int:
         """Get the number of items in the queue.
