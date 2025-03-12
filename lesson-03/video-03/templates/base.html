@@ -8,100 +8,120 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
-            padding: 20px;
-            background-color: #f2f2f2;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
         h1 {
-            text-align: center;
             color: #333;
         }
 
         form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
 
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            margin-bottom: 10px;
+            color: #555;
         }
 
         input[type="text"] {
             width: 100%;
             padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
 
-        button[type="submit"] {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
+        button {
+            background: #5cb85c;
             color: #fff;
             border: none;
-            border-radius: 4px;
+            padding: 10px 20px;
+            border-radius: 5px;
             cursor: pointer;
         }
 
-        hr {
-            margin: 20px 0;
-            border: none;
-            border-top: 1px solid #ccc;
+        button:hover {
+            background: #4cae4c;
         }
 
         .todo {
-            background-color: #fff;
+            background: #fff;
             padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
         }
 
         .todo p {
             margin: 0;
+            color: #333;
         }
 
         .todo span {
-            font-weight: bold;
+            display: block;
+            margin-top: 5px;
+            color: #888;
         }
 
-        .todo a {
-            margin-left: 10px;
-            color: #333;
+        a {
             text-decoration: none;
+            color: #007bff;
+            margin-right: 10px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: #ddd;
+            margin: 20px 0;
         }
     </style>
 </head>
 
 <body>
-    <h1>Todo App</h1>
+    <div>
+        <h1>Todo App</h1>
 
-    <form action="/add" method="post">
-        <label>Todo Title</label>
-        <input type="text" name="title" placeholder="Enter a new todo">
-        <br>
-        <button type="submit">Add</button>
-    </form>
+        <form action="/add" method="POST">
+            <label>Todo Title</label>
+            <input type="text" name="title" placeholder="Enter a new todo">
+            <br>
+            <button type="submit">Add</button>
+        </form>
 
-    <hr>
+        <hr>
 
-    {% for todo in todo_list %}
-    <div class="todo">
-        <p>{{ todo.id }} | {{ todo.title }}</p>
+        {% for todo in todo_list %}
+        <div class="todo">
+            <p>{{ todo.id }} | {{ todo.title }}</p>
 
-        {% if todo.complete == False %}
-        <span>Not Complete</span>
-        {% else %}
-        <span>Complete</span>
-        {% endif %}
+            {% if todo.complete == False %}
+            <span>Not Complete</span>
+            {% else %}
+            <span>Complete</span>
+            {% endif %}
+        </div>
+        
+        <a href="update/{{ todo.id }}">Update</a>
+        <a href="delete/{{ todo.id }}">Delete</a>
+        {% endfor %}
     </div>
-
-    <a href="update/{{ todo.id }}">Update</a>
-    <a href="delete/{{ todo.id }}">Delete</a>
-    {% endfor %}
 </body>
 
 </html>
