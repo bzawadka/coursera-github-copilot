@@ -1,12 +1,14 @@
 # Flask app.py
 
 from flask import Flask, render_template, request, redirect, url_for
-from models.todo import db, Todo
+from models.todo import db
+from config import Config
+from services.services import add_todo, update_todo, delete_todo, get_all_todos
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# Apply the configuration
+app.config.from_object(Config)
 db.init_app(app)  # Initialize the db with the app
 
 
@@ -14,33 +16,27 @@ db.init_app(app)  # Initialize the db with the app
 @app.route('/add', methods=['POST'])
 def add():
     title = request.form.get('title')
-    new_todo = Todo(title=title, complete=False)
-    db.session.add(new_todo)
-    db.session.commit()
+    add_todo(title)
     return redirect(url_for('index'))
 
 
 # route to update a todo
 @app.route('/update/<int:todo_id>')
 def update(todo_id):
-    todo = Todo.query.filter_by(id=todo_id).first()
-    todo.complete = not todo.complete
-    db.session.commit()
+    update_todo(todo_id)
     return redirect(url_for('index'))
 
 
 # route to delete a todo
 @app.route('/delete/<int:todo_id>')
 def delete(todo_id):
-    todo = Todo.query.filter_by(id=todo_id).first()
-    db.session.delete(todo)
-    db.session.commit()
+    delete_todo(todo_id)
     return redirect(url_for('index'))
 
 
 @app.route('/')
 def index():
-    todo_list = Todo.query.all()
+    todo_list = get_all_todos()
     return render_template('base.html', todo_list=todo_list)
 
 
