@@ -1,9 +1,10 @@
 # Flask app.py
 
 from flask import Flask, render_template, request, redirect, url_for
-from models.todo import db
+from app.models.todo import db
+from app.models.todo import db
 from config import Config
-from services.services import add_todo, update_todo, delete_todo, get_all_todos
+from app.services.services import add_todo, update_todo, delete_todo, get_all_todos
 
 app = Flask(__name__)
 
