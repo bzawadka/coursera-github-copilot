@@ -1,4 +1,4 @@
-from models.todo import db, Todo
+from app.models.todo import db, Todo
 
 def add_todo(title):
     """Add a new todo item."""

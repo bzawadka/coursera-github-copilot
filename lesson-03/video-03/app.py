@@ -1,10 +1,9 @@
 # Flask app.py
 
-from flask import Flask, render_template, request, redirect, url_for
-from app.models.todo import db
+from flask import Flask
 from app.models.todo import db
 from config import Config
-from app.services.services import add_todo, update_todo, delete_todo, get_all_todos
+from app.routes.todo_routes import todo_bp
 
 app = Flask(__name__)
 
@@ -12,34 +11,8 @@ app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)  # Initialize the db with the app
 
-
-# route to add a new todo
-@app.route('/add', methods=['POST'])
-def add():
-    title = request.form.get('title')
-    add_todo(title)
-    return redirect(url_for('index'))
-
-
-# route to update a todo
-@app.route('/update/<int:todo_id>')
-def update(todo_id):
-    update_todo(todo_id)
-    return redirect(url_for('index'))
-
-
-# route to delete a todo
-@app.route('/delete/<int:todo_id>')
-def delete(todo_id):
-    delete_todo(todo_id)
-    return redirect(url_for('index'))
-
-
-@app.route('/')
-def index():
-    todo_list = get_all_todos()
-    return render_template('base.html', todo_list=todo_list)
-
+# Register the blueprint
+app.register_blueprint(todo_bp)
 
 if __name__ == "__main__":
     with app.app_context():
